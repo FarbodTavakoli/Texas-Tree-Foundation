@@ -21,5 +21,5 @@ navbar:
     - test: "About"
       menu:
         - text: "Github"
-          href: https://github.com/farbodcpal/TTF_analysis
+          href: https://github.com/FarbodTavakoli/Texas-Tree-Foundation
 output: distill::distill_article
