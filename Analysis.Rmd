@@ -6,26 +6,38 @@ output:
       theme: theme.css
 ---
 
-
 ```{r include = FALSE}
+# For Analysis
 library(tidyverse)
 library(doParallel)
 library(R.utils)
-library(glmnet)
-library(ggplot2)
 library(emmeans)
 library(nlme)
 library(lme4)
 library(rio)
 library(chron)
 library(lubridate)
+
+# For AQ_datadic and datadictionary
+library(reactable)
+library(htmltools)
+
+# AQanalysis
+library(lmtest)
+library(ggplot2)
+
+# For website
+library(distill)
+
+# For everyone
 options(digits = 7)
 registerDoParallel()
 getDoParWorkers()
 ```
 
+
 ```{r include = FALSE}
-load("sensordata.RData")
+load("data/sensordata.RData")
 ```
 
 ```{r include = FALSE}
