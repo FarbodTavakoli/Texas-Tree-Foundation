@@ -23,9 +23,6 @@ Anemometer Sensor captures wind speed and direction.
 
 
 ```{r, MRT Defitions, echo = FALSE, message=FALSE, warning=FALSE, fig.width=12,fig.height=8, layout="l-body-outset"}
-library(reactable)
-library(htmltools)
-
 order <- c(1, 2, 3, 4)
 
 column_names <- c("timestamp", 
@@ -63,9 +60,6 @@ div(class = "cpal-table",
 
 
 ```{r, TH Defitions, echo = FALSE, message=FALSE, warning=FALSE, fig.width=12,fig.height=8, layout="l-body-outset"}
-library(reactable)
-library(htmltools)
-
 order <- c(1, 2, 3, 4)
 
 column_names <- c("timestamp", 
@@ -102,9 +96,6 @@ div(class = "cpal-table",
 ```
 
 ```{r, Wind Defitions, echo = FALSE, message=FALSE, warning=FALSE, fig.width=12,fig.height=8, layout="l-body-outset"}
-library(reactable)
-library(htmltools)
-
 order <- c(1, 2, 3)
 
 column_names <- c("timestamp", 
