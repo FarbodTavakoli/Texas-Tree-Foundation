@@ -8,34 +8,7 @@ output:
 
 
 ```{r include = FALSE}
-library(tidyverse)
-library(lmtest)
-library(MASS)
-library(doParallel)
-library(tibble)
-library(caret)
-library(semPlot)
-library(R.utils)
-library(glmnet)
-library(sampling)
-library(treemap)
-library(reshape2)
-library(dplyr)
-library(scales)
-library(psych)
-library(ggplot2)
-library(xlsx)
-library(lavaan)
-library(emmeans)
-library(nlme)
-library(lme4)
-options(digits = 7)
-registerDoParallel()
-getDoParWorkers()
-```
-
-```{r include = FALSE}
-data <- read.csv("Data_MedicalDistrict(3).csv")
+data <- read.csv("data/Data_MedicalDistrict(3).csv")
 data <- na.omit(data)
 data <- data %>% separate(entryDate, c('Date','Time'), sep = " ")
 data$Time <- strptime(data$Time, format = "%H:%M")
