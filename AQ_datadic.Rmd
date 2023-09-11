@@ -8,9 +8,6 @@ output:
 
 
 ```{r, MRT Defitions, echo = FALSE, message=FALSE, warning=FALSE, fig.width=12,fig.height=8, layout="l-body-outset"}
-library(reactable)
-library(htmltools)
-
 order <- c(1:9)
 
 column_names <- c("entryDate", 
