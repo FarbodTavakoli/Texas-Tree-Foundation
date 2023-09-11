@@ -7,33 +7,6 @@ output:
 ---
 
 
-```{r include = FALSE}
-library(tidyverse)
-library(lmtest)
-library(MASS)
-library(doParallel)
-library(tibble)
-library(caret)
-library(semPlot)
-library(R.utils)
-library(glmnet)
-library(sampling)
-library(treemap)
-library(reshape2)
-library(dplyr)
-library(scales)
-library(psych)
-library(ggplot2)
-library(xlsx)
-library(lavaan)
-library(emmeans)
-library(nlme)
-library(lme4)
-options(digits = 7)
-registerDoParallel()
-getDoParWorkers()
-```
-
 ## Air Quality Analysis Part 2{-}
 We have air quality data (NO2, O3, PM25, and PM10) from 2021-03-25 to 2021-12-07 at three different locations (Hine Medical District Drive, Hine Record Crossing, and Inwood UTSW). We want to see if there is any statistical difference between average air quality between 7-10 AM and 4-7 PM.
 
@@ -70,7 +43,7 @@ print(t.test(x = data_processed$temp_pick[data_processed$SiteName == location],
 ```
 
 ```{r include = FALSE}
-data_processed <- read.csv("AQ_processed.csv")
+data_processed <- read.csv("data/AQ_processed.csv")
 ```
 
 ## Hines Medical District Drive {-}
@@ -96,7 +69,7 @@ statfunc("Inwood_UTSW")
 
 
 ```{r include = FALSE}
-data_processed <- read.csv("AQ_processed V2.csv")
+data_processed <- read.csv("data/AQ_processed V2.csv")
 ```
 
 ## Hines Medical District Drive {-}
