@@ -1,0 +1,241 @@
+---
+title: 'Air Quality Analysis'
+output:
+  distill::distill_article:
+    toc:false:
+      theme: theme.css
+---
+
+
+```{r include = FALSE}
+library(tidyverse)
+library(olsrr)
+library(lmtest)
+library(MASS)
+library(doParallel)
+library(tibble)
+library(caret)
+library(semPlot)
+library(R.utils)
+library(glmnet)
+library(sampling)
+library(treemap)
+library(reshape2)
+library(dplyr)
+library(scales)
+library(psych)
+library(ggplot2)
+library(xlsx)
+library(lavaan)
+library(emmeans)
+library(nlme)
+library(lme4)
+options(digits = 7)
+registerDoParallel()
+getDoParWorkers()
+```
+
+```{r include = FALSE}
+data <- read.csv("Data_MedicalDistrict(3).csv")
+data <- na.omit(data)
+data <- data %>% separate(entryDate, c('Date','Time'), sep = " ")
+data$Time <- strptime(data$Time, format = "%H:%M")
+
+sensordata <- data %>% filter(Date == "3/29/21")
+data_md <- sensordata %>% filter(SiteName == "Hines_MedicalDistrictDrive")
+data_rc <- sensordata %>% filter(SiteName == "Hines_RecordCrossing")
+data_iw <- sensordata %>% filter(SiteName == "Inwood_UTSW")
+```
+
+## Air Quality Analysis {-}
+
+We have chosen 03/29/2021 air quality data for this analysis. We intend to check if there is any significant statistical difference in air quality and other measurements in different sites such as Medical District Drive, Record Crossing, and Inwood UTSW.
+
+
+## PM 25 Concentration {-}
+
+Based on our visual inspection, the PM 25 concentration of Record Crossing and Inwood UTSW have similar pattern and values but they are different than Medical District Drive values. In order to check if one time series may be used (usefull) to forecast another, we will conduct Granger causality test.
+
+```{r, echo = FALSE, message=FALSE, warning=FALSE, fig.width=10,fig.height=5, layout="l-body-outset"}
+ggplot(NULL, aes(Time$hour, `pm25_conc`)) + 
+      geom_point(data = data_md, aes(color='Hines_MedicalDistrictDrive')) +
+      geom_point(data = data_rc, aes(color='Hines_RecordCrossing')) + 
+  geom_point(data = data_iw, aes(color='Inwood_UTSW')) + ylab("PM 25 Concentration") + xlab("Time") + 
+    ggtitle(paste("Comparison of Different Locations")) + 
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1, size = 9)) +
+    scale_color_manual(name='Legend',
+                     breaks=c('Hines_MedicalDistrictDrive', 'Hines_RecordCrossing', 'Inwood_UTSW'),
+                     values=c('Hines_MedicalDistrictDrive'='red', 'Hines_RecordCrossing'='blue', 'Inwood_UTSW' = 'orange')) + ylim(0, 70) + theme(
+    legend.position = c(0.78, .98),
+    legend.justification = c("left", "top"),
+    legend.box.just = "left",
+    legend.margin = margin(1, 1, 1, 1)
+    )
+```
+
+Granger causality test results indicate that Record Crossing time series values are valuable for forecasting the values of Medical District.
+
+```{r, echo = FALSE, message=FALSE, warning=FALSE, fig.width=10,fig.height=5, layout="l-body-outset"}
+printf("Record Crossing vs Inwood ")
+grangertest(data_rc$pm25_conc, data_iw$pm25_conc, order = 1)
+printf("\n\n\n")
+grangertest(data_md$pm25_conc, data_rc$pm25_conc, order = 1)
+printf("\n\n\n")
+grangertest(data_md$pm25_conc, data_iw$pm25_conc, order = 1)
+```
+
+## PM 10 Concentration {-}
+
+Based on our visual inspection, the PM 10 concentration of Record Crossing and Inwood UTSW have similar pattern and values but they are different than Medical District Drive values. In order to check if one time series may be used (usefull) to forecast another, we will conduct Granger causality test.
+
+```{r, echo = FALSE, message=FALSE, warning=FALSE, fig.width=10,fig.height=5, layout="l-body-outset"}
+ggplot(NULL, aes(Time$hour, `pm10_conc`)) + 
+      geom_point(data = data_md, aes(color='Hines_MedicalDistrictDrive')) +
+      geom_point(data = data_rc, aes(color='Hines_RecordCrossing')) + 
+  geom_point(data = data_iw, aes(color='Inwood_UTSW')) + ylab("PM 10 Concentration") + xlab("Time") + 
+    ggtitle(paste("Comparison of Different Locations")) + 
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1, size = 9)) +
+    scale_color_manual(name='Legend',
+                     breaks=c('Hines_MedicalDistrictDrive', 'Hines_RecordCrossing', 'Inwood_UTSW'),
+                     values=c('Hines_MedicalDistrictDrive'='red', 'Hines_RecordCrossing'='blue', 'Inwood_UTSW' = 'orange')) + ylim(0, 70) + theme(
+    legend.position = c(0.78, .98),
+    legend.justification = c("left", "top"),
+    legend.box.just = "left",
+    legend.margin = margin(1, 1, 1, 1)
+    )
+```
+
+Granger causality test results indicate that Inwood UTSW and Record Crossing time series values are valuable for forecasting the values of Record Crossing and Medical District, respectively.
+
+```{r, echo = FALSE, message=FALSE, warning=FALSE, fig.width=10,fig.height=5, layout="l-body-outset"}
+printf("Record Crossing vs Inwood ")
+grangertest(data_rc$pm10_conc, data_iw$pm10_conc, order = 1)
+printf("\n\n\n")
+grangertest(data_md$pm10_conc, data_rc$pm10_conc, order = 1)
+printf("\n\n\n")
+grangertest(data_md$pm10_conc, data_iw$pm10_conc, order = 1)
+```
+
+## NO2 Concentration {-}
+
+Based on our visual inspection, the NO2 concentration of Record Crossing, Inwood UTSW, and Medical District have similar patterns. In order to check if one time series may be used (usefull) to forecast another, we will conduct Granger causality test.
+
+```{r, echo = FALSE, message=FALSE, warning=FALSE, fig.width=10,fig.height=5, layout="l-body-outset"}
+ggplot(NULL, aes(Time$hour, `no2_conc`)) + 
+      geom_point(data = data_md, aes(color='Hines_MedicalDistrictDrive')) +
+      geom_point(data = data_rc, aes(color='Hines_RecordCrossing')) + 
+  geom_point(data = data_iw, aes(color='Inwood_UTSW')) + ylab("NO2 Concentration") + xlab("Time") + 
+    ggtitle(paste("Comparison of Different Locations")) + 
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1, size = 9)) +
+    scale_color_manual(name='Legend',
+                     breaks=c('Hines_MedicalDistrictDrive', 'Hines_RecordCrossing', 'Inwood_UTSW'),
+                     values=c('Hines_MedicalDistrictDrive'='red', 'Hines_RecordCrossing'='blue', 'Inwood_UTSW' = 'orange')) + ylim(0, 40) + theme(
+    legend.position = c(0.78, .98),
+    legend.justification = c("left", "top"),
+    legend.box.just = "left",
+    legend.margin = margin(1, 1, 1, 1)
+    )
+```
+
+
+Granger causality test results indicate that Inwood UTSW and Record Crossing time series values are valuable for forecasting the values of Medical District.
+
+```{r, echo = FALSE, message=FALSE, warning=FALSE, fig.width=10,fig.height=5, layout="l-body-outset"}
+printf("Record Crossing vs Inwood ")
+grangertest(data_rc$no2_conc, data_iw$no2_conc, order = 1)
+printf("\n\n\n")
+grangertest(data_md$no2_conc, data_rc$no2_conc, order = 1)
+printf("\n\n\n")
+grangertest(data_md$no2_conc, data_iw$no2_conc, order = 1)
+```
+
+
+## Temperature {-}
+
+Based on our visual inspection, the Temperature of Record Crossing, Inwood UTSW, and Medical District have similar patterns. In order to check if one time series may be used (usefull) to forecast another, we will conduct Granger causality test.
+
+```{r, echo = FALSE, message=FALSE, warning=FALSE, fig.width=10,fig.height=5, layout="l-body-outset"}
+ggplot(NULL, aes(Time$hour, `temp`)) + 
+      geom_point(data = data_md, aes(color='Hines_MedicalDistrictDrive')) +
+      geom_point(data = data_rc, aes(color='Hines_RecordCrossing')) + 
+  geom_point(data = data_iw, aes(color='Inwood_UTSW')) + ylab("Temperature") + xlab("Time") + 
+    ggtitle(paste("Comparison of Different Locations")) + 
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1, size = 9)) +
+    scale_color_manual(name='Legend',
+                     breaks=c('Hines_MedicalDistrictDrive', 'Hines_RecordCrossing', 'Inwood_UTSW'),
+                     values=c('Hines_MedicalDistrictDrive'='red', 'Hines_RecordCrossing'='blue', 'Inwood_UTSW' = 'orange')) + ylim(10, 30) + theme(
+    legend.position = c(0.78, .98),
+    legend.justification = c("left", "top"),
+    legend.box.just = "left",
+    legend.margin = margin(1, 1, 1, 1)
+    )
+```
+
+
+
+Granger causality test results indicate that Inwood UTSW and Record Crossing time series values are valuable for forecasting the values of Medical District.
+
+```{r, echo = FALSE, message=FALSE, warning=FALSE, fig.width=10,fig.height=5, layout="l-body-outset"}
+printf("Record Crossing vs Inwood ")
+grangertest(data_rc$temp, data_iw$temp, order = 1)
+printf("\n\n\n")
+grangertest(data_md$temp, data_rc$temp, order = 1)
+printf("\n\n\n")
+grangertest(data_md$temp, data_iw$temp, order = 1)
+```
+
+
+## O3 Concentration {-}
+
+Based on our visual inspection, the O3 Concentration of Record Crossing, Inwood UTSW, and Medical District have similar patterns. In order to check if one time series may be used (usefull) to forecast another, we will conduct Granger causality test.
+
+```{r, echo = FALSE, message=FALSE, warning=FALSE, fig.width=10,fig.height=5, layout="l-body-outset"}
+ggplot(NULL, aes(Time$hour, `o3_conc`)) + 
+      geom_point(data = data_md, aes(color='Hines_MedicalDistrictDrive')) +
+      geom_point(data = data_rc, aes(color='Hines_RecordCrossing')) + 
+  geom_point(data = data_iw, aes(color='Inwood_UTSW')) + ylab("O3 Concentration") + xlab("Time") + 
+    ggtitle(paste("Comparison of Different Locations")) + 
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1, size = 9)) +
+    scale_color_manual(name='Legend',
+                     breaks=c('Hines_MedicalDistrictDrive', 'Hines_RecordCrossing', 'Inwood_UTSW'),
+                     values=c('Hines_MedicalDistrictDrive'='red', 'Hines_RecordCrossing'='blue', 'Inwood_UTSW' = 'orange')) + ylim(0, 70) + theme(
+    legend.position = c(0.78, .98),
+    legend.justification = c("left", "top"),
+    legend.box.just = "left",
+    legend.margin = margin(1, 1, 1, 1)
+    )
+```
+
+
+
+Granger causality test results indicate that Inwood UTSW and Record Crossing time series values are valuable for forecasting the values of Medical District.
+
+```{r, echo = FALSE, message=FALSE, warning=FALSE, fig.width=10,fig.height=5, layout="l-body-outset"}
+printf("Record Crossing vs Inwood ")
+grangertest(data_rc$o3_conc, data_iw$o3_conc, order = 1)
+printf("\n\n\n")
+grangertest(data_md$o3_conc, data_rc$o3_conc, order = 1)
+printf("\n\n\n")
+grangertest(data_md$o3_conc, data_iw$o3_conc, order = 1)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

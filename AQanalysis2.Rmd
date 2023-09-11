@@ -1,0 +1,121 @@
+---
+title: 'Air Quality Analysis 2'
+output:
+  distill::distill_article:
+    toc:false:
+      theme: theme.css
+---
+
+
+```{r include = FALSE}
+library(tidyverse)
+library(olsrr)
+library(lmtest)
+library(MASS)
+library(doParallel)
+library(tibble)
+library(caret)
+library(semPlot)
+library(R.utils)
+library(glmnet)
+library(sampling)
+library(treemap)
+library(reshape2)
+library(dplyr)
+library(scales)
+library(psych)
+library(ggplot2)
+library(xlsx)
+library(lavaan)
+library(emmeans)
+library(nlme)
+library(lme4)
+options(digits = 7)
+registerDoParallel()
+getDoParWorkers()
+```
+
+## Air Quality Analysis Part 2{-}
+We have air quality data (NO2, O3, PM25, and PM10) from 2021-03-25 to 2021-12-07 at three different locations (Hine Medical District Drive, Hine Record Crossing, and Inwood UTSW). We want to see if there is any statistical difference between average air quality between 7-10 AM and 4-7 PM.
+
+
+```{r include = FALSE}
+statfunc <-function(location){
+
+print(t.test(x = data_processed$no2_pick[data_processed$SiteName == location], 
+       y = data_processed$no2_mor[data_processed$SiteName == location], 
+       paired = TRUE, conf.level = 0.95))
+printf("\n\n")
+
+print(t.test(x = data_processed$o3_pick[data_processed$SiteName == location], 
+       y = data_processed$o3_mor[data_processed$SiteName == location], 
+       paired = TRUE, conf.level = 0.95))
+printf("\n\n")
+
+print(t.test(x = data_processed$pm25_pick[data_processed$SiteName == location], 
+       y = data_processed$pm25_mor[data_processed$SiteName == location], 
+       paired = TRUE, conf.level = 0.95))
+printf("\n\n")
+
+print(t.test(x = data_processed$pm10_pick[data_processed$SiteName == location], 
+       y = data_processed$pm10_mor[data_processed$SiteName == location], 
+       paired = TRUE, conf.level = 0.95))
+printf("\n\n")
+
+print(t.test(x = data_processed$temp_pick[data_processed$SiteName == location], 
+       y = data_processed$temp_mor[data_processed$SiteName == location], 
+       paired = TRUE, conf.level = 0.95))
+  
+}
+
+```
+
+```{r include = FALSE}
+data_processed <- read.csv("AQ_processed.csv")
+```
+
+## Hines Medical District Drive {-}
+There is no statistical difference in NO2, PM25, and PM10 between 7-10 AM and 4-7 PM, while there is a statistical difference in O3 and temperature between 7-10 AM and 4-7 PM.
+
+```{r, echo = FALSE, message=FALSE, warning=FALSE, fig.width=10,fig.height=5, layout="l-body-outset"}
+statfunc("Hines_MedicalDistrictDrive")
+```
+## Hines Record Crossing {-}
+There is no statistical difference in NO2, PM25, and PM10 between 7-10 AM and 4-7 PM, while there is a statistical difference in O3 and temperature between 7-10 AM and 4-7 PM.
+
+```{r, echo = FALSE, message=FALSE, warning=FALSE, fig.width=10,fig.height=5, layout="l-body-outset"}
+statfunc("Hines_RecordCrossing")
+```
+## Inwood Crossing {-}
+There is no statistical difference in NO2, PM25, and PM10 between 7-10 AM and 4-7 PM, while there is a statistical difference in O3 and temperature between 7-10 AM and 4-7 PM.
+
+```{r, echo = FALSE, message=FALSE, warning=FALSE, fig.width=10,fig.height=5, layout="l-body-outset"}
+statfunc("Inwood_UTSW")
+```
+
+## Below we want to see if there is any statistical difference between average air quality between 1-3 AM and 4-7 PM.
+
+
+```{r include = FALSE}
+data_processed <- read.csv("AQ_processed V2.csv")
+```
+
+## Hines Medical District Drive {-}
+There is no statistical difference in PM25 and PM10 between 1-3 AM and 4-7 PM, while there is a statistical difference in O3, NO2, and temperature between 1-3 AM and 4-7 PM.
+
+```{r, echo = FALSE, message=FALSE, warning=FALSE, fig.width=10,fig.height=5, layout="l-body-outset"}
+statfunc("Hines_MedicalDistrictDrive")
+```
+## Hines Record Crossing {-}
+There is no statistical difference in PM25 and PM10 between 1-3 AM and 4-7 PM, while there is a statistical difference in O3, NO2, and temperature between 1-3 AM and 4-7 PM.
+
+```{r, echo = FALSE, message=FALSE, warning=FALSE, fig.width=10,fig.height=5, layout="l-body-outset"}
+statfunc("Hines_RecordCrossing")
+```
+
+## Inwood Crossing {-}
+There is no statistical difference in PM25 and PM10 between 1-3 AM and 4-7 PM, while there is a statistical difference in O3, NO2, and temperature between 1-3 AM and 4-7 PM.
+
+```{r, echo = FALSE, message=FALSE, warning=FALSE, fig.width=10,fig.height=5, layout="l-body-outset"}
+statfunc("Inwood_UTSW")
+```

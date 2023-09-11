@@ -1,0 +1,48 @@
+---
+title: 'Home'
+output:
+  distill::distill_article:
+    toc:false:
+      theme: theme.css
+---
+
+<style type="text/css">
+.title {
+  display: none;
+}
+
+#getting-started img {
+  margin-right: 10px;
+}
+
+</style>
+
+<div class="row" style="padding-top: 30px;">
+<div class="col-sm-6">
+
+![](images/TTF_Logo.jpg){width=80%}
+
+# **Introduction**
+
+This GitHub website is designed for Texas Tree Foundation. The main purpose of this website is to provide the data dictionary and a summary of the analysis.
+
+
+
+# **Tabs**
+
+1. Pegasus Parking Lot Analysis: This tab provides the results of statistical analysis in Pegasus parking lot.
+
+2. Air Quality Analysis: This tab provides the results of statistical analysis for air quality data. 
+
+3. Sensors' Data Dictionary: This tab provides information on variables in each database related to Pegasus parking lot analysis.
+
+4. Air Quality Data Dictionary: This tab provides information on variables of air quality data.
+
+
+</div>
+<div class="col-sm-6">
+
+
+
+</a>
+</div>

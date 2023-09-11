@@ -1,0 +1,139 @@
+---
+title: "Sensors' Data Dictionary"
+output:
+  distill::distill_article:
+    toc:false:
+      theme: theme.css
+---
+
+# Hub
+The hub receives and processes data from all the different sensors
+
+# MRT Sensor Prototype  
+MRT sensor captures air and global temperature. These sensors are located inside a black-painted sphere.
+
+# Light Sensor
+Light sensor captures light data. Data from the light sensor is used to differentiate cloudy days from sunny days.   
+
+# TH Sensor 
+TH sensor captures temperature and humidity.
+
+# Anemometer 
+Anemometer Sensor captures wind speed and direction.   
+
+
+```{r, MRT Defitions, echo = FALSE, message=FALSE, warning=FALSE, fig.width=12,fig.height=8, layout="l-body-outset"}
+library(reactable)
+library(htmltools)
+
+order <- c(1, 2, 3, 4)
+
+column_names <- c("timestamp", 
+           "air_temp (C)", 
+           "GT (C)", 
+           "deveui") 
+
+definition <- c("The date and time of each data point are represented every 20 minutes.", 
+                "Air temperature is captured and reported in celcius unit.",
+                "Global temperature is captured and reported in celcuis unit.",
+                "Sensor unique ID")
+
+datadic_def <- data.frame(order, column_names, definition)
+
+tbl_datadic <- reactable(datadic_def,
+          compact = TRUE,
+          class = "cpal-tbl",
+          defaultSorted = c("order"),
+          columns = list(
+            order = colDef(
+              name = "Order",
+              show = FALSE),
+            column_names = colDef(
+              name = "Column Name"),
+            definition = colDef(
+              name = "Definition")
+            ))
+
+div(class = "cpal-table",
+  div(class = "cpal-header",
+    h2(class = "cpal-title", "Data Dictionary for the MRT Sensor")),
+  tbl_datadic
+)
+```
+
+
+```{r, TH Defitions, echo = FALSE, message=FALSE, warning=FALSE, fig.width=12,fig.height=8, layout="l-body-outset"}
+library(reactable)
+library(htmltools)
+
+order <- c(1, 2, 3, 4)
+
+column_names <- c("timestamp", 
+           "air_temp (C)", 
+           "humidity (%RH)", 
+           "deveui") 
+
+definition <- c("The date and time of each data point are represented every 20 minutes.", 
+                "Air temperature is captured and reported in celcius unit.",
+                "Humidity is captured and reported as relative humidity ratio.",
+                "Sensor unique ID")
+
+datadic_def <- data.frame(order, column_names, definition)
+
+tbl_datadic <- reactable(datadic_def,
+          compact = TRUE,
+          class = "cpal-tbl",
+          defaultSorted = c("order"),
+          columns = list(
+            order = colDef(
+              name = "Order",
+              show = FALSE),
+            column_names = colDef(
+              name = "Column Name"),
+            definition = colDef(
+              name = "Definition")
+            ))
+
+div(class = "cpal-table",
+  div(class = "cpal-header",
+    h2(class = "cpal-title", "Data Dictionary for the TH Sensor")),
+  tbl_datadic
+)
+```
+
+```{r, Wind Defitions, echo = FALSE, message=FALSE, warning=FALSE, fig.width=12,fig.height=8, layout="l-body-outset"}
+library(reactable)
+library(htmltools)
+
+order <- c(1, 2, 3)
+
+column_names <- c("timestamp", 
+           "wind_speed_10min_average (m/s)", 
+           "wind_direction_10min_average (compass degrees)") 
+
+definition <- c("The date and time of each data point are represented every 10 minutes.", 
+                "Wind speed is captured and reported in meter per second unit.",
+                "Wind direction is captured and reported in compass degree unit.")
+
+datadic_def <- data.frame(order, column_names, definition)
+
+tbl_datadic <- reactable(datadic_def,
+          compact = TRUE,
+          class = "cpal-tbl",
+          defaultSorted = c("order"),
+          columns = list(
+            order = colDef(
+              name = "Order",
+              show = FALSE),
+            column_names = colDef(
+              name = "Column Name"),
+            definition = colDef(
+              name = "Definition")
+            ))
+
+div(class = "cpal-table",
+  div(class = "cpal-header",
+    h2(class = "cpal-title", "Data Dictionary for the Anemometer Sensor")),
+  tbl_datadic
+)
+```
