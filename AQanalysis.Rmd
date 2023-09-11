@@ -9,7 +9,6 @@ output:
 
 ```{r include = FALSE}
 library(tidyverse)
-library(olsrr)
 library(lmtest)
 library(MASS)
 library(doParallel)
