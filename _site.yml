@@ -8,17 +8,23 @@ navbar:
   right:
     - text: "Home"
       href: index.html
-    - text: "Pegasus Parking Lot Analysis"
-      href: Analysis.html 
-    - text: "Air Quality Analysis"
-      href: AQanalysis.html 
-    - text: "Air Quality Analysis 2"
-      href: AQanalysis2.html       
-    - text: "Sensors' Data Dictionary"
-      href: datadictionary.html   
-    - text: "Air Quality Data Dictionary"
-      href: AQ_datadic.html
-    - test: "About"
+    - text: "Analysis"
+      menu:
+        - text: "Pegasus Parking Lot Analysis"
+          href: Analysis.html 
+        - text: "Air Quality Analysis"
+          href: AQanalysis.html 
+        - text: "Air Quality Analysis 2"
+          href: AQanalysis2.html
+        - text: "DART Analysis"
+          href: DART.html
+    - text: "Data Dictionary"
+      menu:
+        - text: "Sensors' Data Dictionary"
+          href: datadictionary.html   
+        - text: "Air Quality Data Dictionary"
+          href: AQ_datadic.html
+    - text: "About"
       menu:
         - text: "Github"
           href: https://github.com/FarbodTavakoli/Texas-Tree-Foundation

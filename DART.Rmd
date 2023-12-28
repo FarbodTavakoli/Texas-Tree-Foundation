@@ -1,0 +1,130 @@
+---
+title: 'DART Analysis'
+output:
+  distill::distill_article:
+    toc:false:
+      theme: theme.css
+---
+
+```{r, include=FALSE}
+# DART
+library('RPostgreSQL')
+library(tidyverse)
+```
+
+
+```{r, include=FALSE}
+dsn_database = "greenheart_sensors"   # Specify the name of your Database
+dsn_hostname = "35.155.88.96"  
+dsn_port = "5432"                # Specify your port number. e.g. 98939
+dsn_uid = "sensors_reader"         # Specify your username. e.g. "admin"
+dsn_pwd = "material3papal.burgh9WARLORD"        # Specify your password. e.g. "xxx"
+```
+
+```{r, include=FALSE}
+tryCatch({
+    drv <- dbDriver("PostgreSQL")
+    print("Connecting to Database…")
+    connec <- dbConnect(drv, 
+                 dbname = dsn_database,
+                 host = dsn_hostname, 
+                 port = dsn_port,
+                 user = dsn_uid, 
+                 password = dsn_pwd)
+    print("Database Connected!")
+    },
+    error=function(cond) {
+            print("Unable to connect to Database.")
+    })
+```
+
+```{r, include=FALSE}
+#df <- dbGetQuery(connec, "SELECT table_name FROM information_schema.tables WHERE table_schema = 'greenspine';")
+#df <- dbGetQuery(connec, "SELECT column_name, data_type FROM information_schema.columns WHERE table_name = 'data__mrt_dragino_d22';")
+#df <- dbGetQuery(connec, "SELECT * FROM greenspine.data__wind_barani_meteowind_iot_pro WHERE device_eui = '0004a30b00f6ff37';")
+# TH25 - inside DART shelter (fully shaded) but the DART station is under sun
+# TH24 - inside DART shelter (fully shaded) but the DART station is near a big tree (south of shelter)
+# TH44 - inside a big tree near TH24 (DART bus station)
+# TH38 - is out in the sun near TH24 (DART bus station) and TH25 (DART bus station) - kind of in between
+# TH25 - a84041e291843683
+# TH24 - a84041d73184368b
+# TH44 - a84041e68186060a
+# TH38 - a84041af11860603
+# device_id = 'a84041e291843683'
+# 
+# table_name = 'data__temphum_dragino_sm31'
+# 
+# query = f'SELECT * FROM "greenspine".{table_name} WHERE device_eui = \'{device_id}\';' 
+```
+
+
+```{r, include=FALSE}
+snr_data <- function(sensor){
+  qry <- paste0("SELECT reading_ts, temperature 
+                FROM greenspine.data__temphum_dragino_sm31 
+                WHERE reading_ts < '2023-08-26'
+                and reading_ts > '2023-08-25'
+                and device_eui = ", sensor, ";")
+  output <- dbGetQuery(connec, qry)
+  output <- output %>% separate(reading_ts, c('Date','Time'), sep = " ")
+  output$Time <- strptime(output$Time, format = "%H:%M:%S")
+  output <- output %>% dplyr::select(-Date)
+  return(output)
+}
+
+th25 <- snr_data("'a84041e291843683'") # inside DART shelter under the sun
+th24 <- snr_data("'a84041d73184368b'") # inside DART shelter near a big tree
+th44 <- snr_data("'a84041e68186060a'") # inside a big tree
+th38 <- snr_data("'a84041af11860603'") # under the sun
+```
+
+
+## DART Temperature Analysis {-}
+
+We have chosen 08/25/2023 temperature data for this analysis because it was the highest temperature recorded this year (Dallas News, 2023). We intend to check if there is any significant statistical difference in temperature captured by our sensors which are placed under different environments. 
+
+* Sensor list:
+    + Sensor TH25 is located inside a DART bus shelter, and the bus shelter is under the sun 
+    + Sensor TH24 is located inside a DART bus shelter, but the bus shelter is near a big tree (some shades from the tree)
+    + Sensor TH44 is located inside a big tree (shaded)
+    + Sensor TH38 is located under the sun (sunny)
+
+
+## Temperature Distribution {-}
+
+Based on our analysis, the temperature captured by sensor TH44 (shaded) during the hottest time of the day is significantly lower than the temperature captured by sensors TH25 and TH24. This analysis further shows the impacts of trees in reducing the temperature and increasing comfort. Another noteworthy point we learned from this analysis is that the temperature captured by TH38 (sunny) is actually lower than the temperature captured by TH25 and TH24 which shows that the radiant temperature from the DART bus shelter is making the shaded area under the bus shelter even hotter than sunny areas with no shelter which shows the benefit of tree shades over bus shelter shades. 
+
+# Visualization
+
+```{r, echo = FALSE, message=FALSE, warning=FALSE, fig.width=12,fig.height=7, layout="l-body-outset"}
+ggplot(NULL, aes(Time$hour, `temperature`)) + 
+      geom_point(data = th25, aes(color='TH25')) +
+      geom_point(data = th24, aes(color='TH24')) + 
+      geom_point(data = th44, aes(color='TH44')) + 
+      geom_point(data = th38, aes(color='TH38')) + ylab("Temperature") + xlab("Time") + 
+    ggtitle(paste("Comparison of Different Sensors")) + 
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1, size = 9)) +
+    scale_color_manual(name='Legend',
+                     breaks=c('TH25', 'TH24', 'TH44', 'TH38'),
+                     values=c('TH25'='red', 'TH24'='blue', 'TH44' = 'orange', 'TH38' = 'green')) + ylim(25, 55) + theme(
+    legend.position = c(0.02, .98),
+    legend.justification = c("left", "top"),
+    legend.box.just = "left",
+    legend.margin = margin(1, 1, 1, 1)
+    )
+```
+
+
+```{r, include=FALSE}
+# sensor_list <- c("'a84041e291843683'", "'a84041d73184368b'", "'a84041e68186060a'", "'a84041af11860603'")
+# 
+# for (sensor in sensor_list){
+#   qry <- paste0("SELECT reading_ts, device_eui, humidity, temperature, globe_temperature FROM greenspine.data__temphum_dragino_sm31 WHERE reading_ts < '2023-08-26'
+#                                                                    and reading_ts > '2023-08-25'
+#                                                                    and device_eui = ", sensor, ";")
+#   df <- dbGetQuery(connec, qry)
+#   print(df)
+#   
+# }
+```
+
