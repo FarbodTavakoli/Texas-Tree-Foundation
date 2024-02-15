@@ -88,26 +88,26 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 
   <!--radix_placeholder_meta_tags-->
-  <title>Texas Tree Foundation Analysis Report: DART Analysis</title>
+  <title>Texas Tree Foundation Analysis Report: Crime Analysis</title>
 
 
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="Texas Tree Foundation Analysis Report: DART Analysis"/>
+  <meta property="og:title" content="Texas Tree Foundation Analysis Report: Crime Analysis"/>
   <meta property="og:type" content="article"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="Texas Tree Foundation Analysis Report"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="Texas Tree Foundation Analysis Report: DART Analysis"/>
+  <meta property="twitter:title" content="Texas Tree Foundation Analysis Report: Crime Analysis"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["DART Analysis"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc:false"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["theme"]}},"value":[{"type":"character","attributes":{},"value":["theme.css"]}]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Crime Analysis"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc:false"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["theme"]}},"value":[{"type":"character","attributes":{},"value":["theme.css"]}]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2389,6 +2389,13 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   }</style>
   <!--/radix_placeholder_distill-->
   <script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+  <script src="site_libs/core-js-2.5.3/shim.min.js"></script>
+  <script src="site_libs/react-17.0.0/react.min.js"></script>
+  <script src="site_libs/react-17.0.0/react-dom.min.js"></script>
+  <script src="site_libs/reactwidget-1.0.0/react-tools.js"></script>
+  <script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+  <link href="site_libs/reactable-0.3.0.9000/reactable.css" rel="stylesheet" />
+  <script src="site_libs/reactable-binding-0.3.0.9000/reactable.js"></script>
   <script src="site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
   <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
@@ -2408,7 +2415,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"DART Analysis","authors":[]}
+{"title":"Crime Analysis","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2464,7 +2471,7 @@ About
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>DART Analysis</h1>
+<h1>Crime Analysis</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 
@@ -2472,22 +2479,21 @@ About
 
 
 <div class="d-article">
-<h2 class="unnumbered" id="dart-temperature-analysis">DART Temperature Analysis</h2>
-<p>We have chosen 08/25/2023 temperature data for this analysis because it was the highest temperature recorded this year (Dallas News, 2023). We intend to check if there is any significant statistical difference in temperature captured by our sensors which are placed under different environments.</p>
-<ul>
-<li>Sensor list:
-<ul>
-<li>Sensor TH25 is located inside a DART bus shelter, and the bus shelter is under the sun</li>
-<li>Sensor TH24 is located inside a DART bus shelter, but the bus shelter is near a big tree (some shades from the tree)</li>
-<li>Sensor TH44 is located inside a big tree (shaded)</li>
-<li>Sensor TH38 is located under the sun (sunny)</li>
-</ul></li>
-</ul>
-<h2 class="unnumbered" id="temperature-distribution">Temperature Distribution</h2>
-<p>Based on our analysis, the temperature captured by sensor TH44 (shaded) during the hottest time of the day is significantly lower than the temperature captured by sensors TH25 and TH24. This analysis further shows the impacts of trees in reducing the temperature and increasing comfort. Another noteworthy point we learned from this analysis is that the temperature captured by TH38 (sunny) is actually lower than the temperature captured by TH25 and TH24 which shows that the radiant temperature from the DART bus shelter is making the shaded area under the bus shelter even hotter than sunny areas with no shelter which shows the benefit of tree shades over bus shelter shades.</p>
-<h1 id="visualization">Visualization</h1>
+<h2 class="unnumbered" id="crime-analysis">Crime Analysis</h2>
+<p>Exploring the Predominant Crime Types, Monthly Incident Rates, and Arrest Frequencies in Oak Lawn and Uptown, emblematic of neighborhoods grappling with heightened criminal activities</p>
+<h3 id="oak-lawn">Oak Lawn</h3>
 <div class="layout-chunk" data-layout="l-body-outset">
-<p><img src="DART_files/figure-html5/unnamed-chunk-6-1.png" width="1152" /></p>
+<p><img src="CrimeAnalysis_files/figure-html5/unnamed-chunk-3-1.png" width="960" /><img src="CrimeAnalysis_files/figure-html5/unnamed-chunk-3-2.png" width="960" /></p>
+<h2 class="title">Top 10 Crime Types In the Last Three Years at Oak Lawn</h2>
+<div id="htmlwidget-b94d1859b59f4a15d918" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-b94d1859b59f4a15d918">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Crime Type":["LARCENY/ THEFT OFFENSES","MISCELLANEOUS","MOTOR VEHICLE THEFT","DESTRUCTION/ DAMAGE/ VANDALISM OF PROPERTY","BURGLARY/ BREAKING & ENTERING"],"Frequency":[6016,3695,1696,1236,1145]},"columns":[{"id":"Crime Type","name":"Crime Type","type":"factor","cell":["LARCENY/ THEFT OFFENSES","MISCELLANEOUS","MOTOR VEHICLE THEFT","DESTRUCTION/ DAMAGE/ VANDALISM OF PROPERTY","BURGLARY/ BREAKING & ENTERING"],"header":"Crime Type","minWidth":100,"align":"center","headerStyle":{"background":"#f7f7f8"}},{"id":"Frequency","name":"Frequency","type":"numeric","cell":["6016","3695","1696","1236","1145"],"header":"Frequency","minWidth":100,"align":"center","headerStyle":{"background":"#f7f7f8"}}],"filterable":true,"searchable":true,"highlight":true,"bordered":true,"dataKey":"6c93db089e30d210b05d0e995e771382","static":false},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+<h3 id="uptown">Uptown</h3>
+<div class="layout-chunk" data-layout="l-body-outset">
+<p><img src="CrimeAnalysis_files/figure-html5/unnamed-chunk-4-1.png" width="960" /><img src="CrimeAnalysis_files/figure-html5/unnamed-chunk-4-2.png" width="960" /></p>
+<h2 class="title">Top 10 Crime Types In the Last Three Years at Uptown</h2>
+<div id="htmlwidget-d0aa8ca44210a46727b1" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-d0aa8ca44210a46727b1">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Crime Type":["LARCENY/ THEFT OFFENSES","MISCELLANEOUS","MOTOR VEHICLE THEFT","DESTRUCTION/ DAMAGE/ VANDALISM OF PROPERTY","PUBLIC INTOXICATION"],"Frequency":[2294,1125,492,336,290]},"columns":[{"id":"Crime Type","name":"Crime Type","type":"factor","cell":["LARCENY/ THEFT OFFENSES","MISCELLANEOUS","MOTOR VEHICLE THEFT","DESTRUCTION/ DAMAGE/ VANDALISM OF PROPERTY","PUBLIC INTOXICATION"],"header":"Crime Type","minWidth":100,"align":"center","headerStyle":{"background":"#f7f7f8"}},{"id":"Frequency","name":"Frequency","type":"numeric","cell":["2294","1125","492","336","290"],"header":"Frequency","minWidth":100,"align":"center","headerStyle":{"background":"#f7f7f8"}}],"filterable":true,"searchable":true,"highlight":true,"bordered":true,"dataKey":"190b4ecb31413edf81117739a6a96ee9","static":false},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
 </div>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->

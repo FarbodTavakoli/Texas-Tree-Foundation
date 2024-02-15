@@ -18,6 +18,8 @@ navbar:
           href: AQanalysis2.html
         - text: "DART Analysis"
           href: DART.html
+        - text: "Crime Analysis"
+          href: CrimeAnalysis.html
     - text: "Data Dictionary"
       menu:
         - text: "Sensors' Data Dictionary"
