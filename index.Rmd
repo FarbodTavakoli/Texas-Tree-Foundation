@@ -29,14 +29,10 @@ This GitHub website is designed for Texas Tree Foundation. The main purpose of t
 
 # **Tabs**
 
-* Analysis:
-    + Pegasus Parking Lot Analysis: This tab provides the results of statistical analysis in Pegasus parking lot.
-    + Air Quality Analysis I & II: These tabs provide the results of statistical analysis for air quality data.
-    + DART Analysis: This tab provides the results of statistical analysis for DART.
-
-* Data Dictionary:
-    + Sensors' Data Dictionary: This tab provides information on variables in each database related to Pegasus parking lot analysis.
-    + Air Quality Data Dictionary: This tab provides information on variables of air quality data.
+* SWMD: This tab provides information on analysis for SWMD projects
+* Cool Schools: This tab provides information on analysis for Cool Schools projects
+* Urban Forestry: This tab provides information on analysis for Urban Forestry projects
+* Data Dictionary: This tab provides information on variables in each database related to Pegasus parking 
 
 
 </div>

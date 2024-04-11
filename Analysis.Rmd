@@ -8,12 +8,12 @@ output:
 
 ```{r include = FALSE}
 # For Analysis
-library(tidyverse)
-library(doParallel)
+
 library(R.utils)
 library(emmeans)
 library(nlme)
 library(lme4)
+library(tidyverse)
 library(rio)
 library(chron)
 library(lubridate)
@@ -31,8 +31,6 @@ library(distill)
 
 # For everyone
 options(digits = 7)
-registerDoParallel()
-getDoParWorkers()
 ```
 
 

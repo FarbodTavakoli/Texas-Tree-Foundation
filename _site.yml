@@ -8,7 +8,7 @@ navbar:
   right:
     - text: "Home"
       href: index.html
-    - text: "Analysis"
+    - text: "SWMD"
       menu:
         - text: "Pegasus Parking Lot Analysis"
           href: Analysis.html 
@@ -18,8 +18,17 @@ navbar:
           href: AQanalysis2.html
         - text: "DART Analysis"
           href: DART.html
+          
+    - text: "Cool Schools"
+      menu: 
         - text: "Crime Analysis"
           href: CrimeAnalysis.html
+          
+    - text: "Urban Forestry"
+      menu:
+        - text: "Canopy Assessment"
+          href: CanopyAssmnt.html
+     
     - text: "Data Dictionary"
       menu:
         - text: "Sensors' Data Dictionary"
